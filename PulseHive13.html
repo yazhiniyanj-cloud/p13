@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pulse Hive - Smart Health Monitoring</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff6e0;
+            color: #4a2b0f;
+        }
+
+        header {
+            background: #b84000;
+            color: white;
+            text-align: center;
+            padding: 28px 15px;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            margin: 40px auto;
+        }
+
+        .feature-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #e8590c;
+            margin-bottom: 12px;
+        }
+
+        .description {
+            color: #8d6e63;
+            margin-bottom: 25px;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid #d9b99b;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: 2px solid #e8590c;
+        }
+
+        button {
+            background: #e8590c;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #b84000;
+        }
+
+        h3 {
+            margin-top: 28px;
+            color: #e8590c;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        #featureList {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        #featureList li {
+            background: #fff0d6;
+            border-left: 5px solid #e8590c;
+            padding: 13px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-text {
+            flex: 1;
+            overflow-wrap: anywhere;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .edit-btn {
+            background: #2878a5;
+        }
+
+        .delete-btn {
+            background: #c0392b;
+        }
+
+        .feature-summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffe8cc;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        footer {
+            background: #b84000;
+            color: white;
+            text-align: center;
+            padding: 18px;
+        }
+
+        @media (max-width: 500px) {
+
+            .feature-section {
+                padding: 20px;
+            }
+
+            .input-area {
+                flex-direction: column;
+            }
+
+            .input-area button {
+                width: 100%;
+            }
+
+            #featureList li {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .actions {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>💓🐝 PULSE HIVE</h1>
+
+        <p>Smart Health Monitoring, Connected Like a Hive</p>
+
+    </header>
+
+    <main class="container">
+
+        <section class="feature-section">
+
+            <h2>Manage Pulse Hive Features</h2>
+
+            <p class="description">
+                Add and manage health monitoring features
+                and wellness services for the hive.
+            </p>
+
+            <div class="input-area">
+
+                <input
+                    type="text"
+                    id="featureInput"
+                    placeholder="Enter a Pulse Hive feature..."
+                >
+
+                <button onclick="addFeature()" id="addButton">
+                    Add Feature
+                </button>
+
+            </div>
+
+            <p id="message"></p>
+
+            <h3>Pulse Hive Feature List</h3>
+
+            <ul id="featureList">
+            </ul>
+
+            <div class="feature-summary">
+
+                Total Features:
+                <span id="featureCount">0</span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <p>
+            © 2026 Pulse Hive | Every Heartbeat Connected
+        </p>
+
+    </footer>
+
+    <script>
+
+        // Array to store Pulse Hive features
+
+        let features = [];
+
+        // Track the feature being edited
+
+        let editIndex = -1;
+
+
+        // CREATE - ADD FEATURE
+
+        function addFeature() {
+
+            let input = document.querySelector("#featureInput");
+
+            let feature = input.value.trim();
+
+            let message = document.querySelector("#message");
+
+            // Input Validation
+
+            if (feature === "") {
+
+                message.textContent = "Please enter a feature!";
+
+                message.style.color = "red";
+
+                return;
+
+            }
+
+            // Check whether editing or adding
+
+            if (editIndex === -1) {
+
+                features.push(feature);
+
+                message.textContent =
+                    "Feature added successfully!";
+
+            }
+
+            else {
+
+                features[editIndex] = feature;
+
+                message.textContent =
+                    "Feature updated successfully!";
+
+                editIndex = -1;
+
+                document.querySelector("#addButton").textContent =
+                    "Add Feature";
+
+            }
+
+            message.style.color = "green";
+
+            input.value = "";
+
+            displayFeatures();
+
+        }
+
+
+        // READ - DISPLAY FEATURES
+
+        function displayFeatures() {
+
+            let featureList =
+                document.querySelector("#featureList");
+
+            featureList.replaceChildren();
+
+            features.forEach(function(feature, index) {
+
+                let li = document.createElement("li");
+
+                let span = document.createElement("span");
+
+                span.className = "feature-text";
+
+                span.textContent = "💓 " + feature;
+
+                // Action buttons
+
+                let actions = document.createElement("div");
+
+                actions.className = "actions";
+
+                let editButton = document.createElement("button");
+
+                editButton.textContent = "Edit";
+
+                editButton.className = "edit-btn";
+
+                editButton.onclick = function() {
+
+                    editFeature(index);
+
+                };
+
+                let deleteButton = document.createElement("button");
+
+                deleteButton.textContent = "Delete";
+
+                deleteButton.className = "delete-btn";
+
+                deleteButton.onclick = function() {
+
+                    deleteFeature(index);
+
+                };
+
+                actions.append(editButton, deleteButton);
+
+                li.append(span, actions);
+
+                featureList.appendChild(li);
+
+            });
+
+            // Update feature count
+
+            document.querySelector("#featureCount").textContent =
+                features.length;
+
+        }
+
+
+        // UPDATE - EDIT FEATURE
+
+        function editFeature(index) {
+
+            let input = document.querySelector("#featureInput");
+
+            input.value = features[index];
+
+            editIndex = index;
+
+            document.querySelector("#addButton").textContent =
+                "Update Feature";
+
+            document.querySelector("#message").textContent =
+                "Edit the feature and click Update Feature.";
+
+        }
+
+
+        // DELETE - REMOVE FEATURE
+
+        function deleteFeature(index) {
+
+            features.splice(index, 1);
+
+            // Cancel editing if the edited item is deleted
+
+            if (editIndex === index) {
+
+                editIndex = -1;
+
+                document.querySelector("#featureInput").value = "";
+
+                document.querySelector("#addButton").textContent =
+                    "Add Feature";
+
+            }
+
+            else if (editIndex > index) {
+
+                editIndex--;
+
+            }
+
+            document.querySelector("#message").textContent =
+                "Feature deleted successfully!";
+
+            document.querySelector("#message").style.color = "green";
+
+            displayFeatures();
+
+        }
+
+    </script>
+
+</body>
+
+</html>
